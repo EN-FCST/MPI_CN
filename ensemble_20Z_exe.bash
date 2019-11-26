@@ -5,7 +5,7 @@
 
 filename='shaG_history.log'
 current_time=$(date -u +%Y%m%d%H)
-day0=11; #count=0
+day0=25; #count=0
 while [ 1 -le 2 ]
 do
     # get the current datetime
