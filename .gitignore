@@ -1,0 +1,7 @@
+.ipynb_checkpoints/*
+libs/*pyc
+data/*
+*.log
+*.txt
+*.pyc
+Untitled*.ipynb
