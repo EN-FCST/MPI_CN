@@ -157,7 +157,7 @@ def main(delta_day, day0, key):
         precip50 = np.zeros(lon.shape)
         for cmpt_key in cmpt_keys:
             data0, data25, data50 = subtrack_precip_lev(dict_interp[cmpt_key][fcst_keys[i]])
-            if cmpt_key = 'OTS':
+            if cmpt_key == 'OTS':
                 precip0 += data0
                 W0 += 1.0
             # precip. with multiplicative weights    
