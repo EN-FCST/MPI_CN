@@ -84,10 +84,12 @@ def main(delta_day, day0, key):
     ##     0-25 mm - OTS only
     ##     25-50, 50-inf - ENS, OTS weighted average
     ##                     out = [a*ENS + b*OTS]/(a+b)
-    print('Caliberating weights')
+    ##     current and historical (last year) weights equally considered
+    # ---------------------------------------- #
     # ---------- Extracting weights ---------- #
     # initialization
     # W[precip ranges][fcst horizon][source, e.g., OTS]
+    print('Caliberating weights')
     W = {}; W = ini_dicts(W, prec_keys)
     for prec_key in prec_keys:
         W[prec_key] = ini_dicts(W[prec_key], tssc_keys)
@@ -114,6 +116,32 @@ def main(delta_day, day0, key):
                     if np.isnan(temp):
                         temp = 0.0
                     W[prec_key][tssc_key][cmpt_key] = temp
+    # ---------- Extracting historical weights ---------- #
+    print('Caliberating historical weights')
+    W_h = {}; W_h = ini_dicts(W_h, prec_keys)
+    for prec_key in prec_keys:
+        W_h[prec_key] = ini_dicts(W_h[prec_key], tssc_keys)
+    # TS weights + moving average
+    for prec_key in prec_keys:
+        for tssc_key in tssc_keys:
+            # the case of last year
+            hist_ref = date_ref - relativedelta(years=1)
+            date_temp = hist_ref + relativedelta(days=int(tssc_key)/24)
+            data_ma, flag_TS = et.norm_ensemble(date_temp.strftime(TS_perfix), 
+                                                10, TS_path+prec_key+'/', period=tssc_key, backward=False)
+            # saving weights to the dictionary
+            # case: no TS files
+            if (np.logical_not(flag_TS)) or (np.isnan(data_ma.as_matrix()[-1, 1:].astype(np.float)).sum() >= 3):
+                print('Warning: historical TS no found/filled with NaNs. Now ignoring')
+                for cmpt_key in cmpt_keys:
+                    W_h[prec_key][tssc_key][cmpt_key] = W[prec_key][tssc_key][cmpt_key]
+            # case: regular (good quality) weights
+            else:
+                for cmpt_key in cmpt_keys:
+                    temp = data_ma[cmpt_key][9:10].as_matrix()
+                    if np.isnan(temp):
+                        temp = 0.0
+                    W_h[prec_key][tssc_key][cmpt_key] = temp
     # Calculate ensembles
     print('Preparing output')
     output = {}
@@ -133,10 +161,10 @@ def main(delta_day, day0, key):
                 precip0 += data0
                 W0 += 1.0
             # precip. with multiplicative weights    
-            precip25 += W['25'][tssc_keys[i]][cmpt_key] * data25 
-            precip50 += W['50'][tssc_keys[i]][cmpt_key] * data50
-            W25 += W['25'][tssc_keys[i]][cmpt_key]
-            W50 += W['50'][tssc_keys[i]][cmpt_key]
+            precip25 += W['25'][tssc_keys[i]][cmpt_key] * data25 + W_h['25'][tssc_keys[i]][cmpt_key] * data25 
+            precip50 += W['50'][tssc_keys[i]][cmpt_key] * data50 + W_h['50'][tssc_keys[i]][cmpt_key] * data50
+            W25 += W['25'][tssc_keys[i]][cmpt_key] + W_h['25'][tssc_keys[i]][cmpt_key]
+            W50 += W['50'][tssc_keys[i]][cmpt_key] + W_h['50'][tssc_keys[i]][cmpt_key]
         print('Calculating '+fcst_keys[i])
         output[fcst_keys[i]] = precip0/W0 + precip25/W25 + precip50/W50
         # =========================================== #

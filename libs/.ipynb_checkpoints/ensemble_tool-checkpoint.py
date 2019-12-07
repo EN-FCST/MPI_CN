@@ -4,13 +4,16 @@ from glob import glob
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-def norm_ensemble(date, num, data_path, period='096'):
+def norm_ensemble(date, num, data_path, period='096', backward=True):
     '''
     Moving average and normalize TS files
     '''
     print(' - Checking TS at '+date)
     base = datetime.strptime(date, '%y%m%d%H') # <------------- The starting date of files
-    date_list = [base - relativedelta(days=x) for x in range(num)] # <-- how many days
+    if backward:
+        date_list = [base - relativedelta(days=x) for x in range(num)] # <-- how many days
+    else:
+        date_list = [base + relativedelta(days=x) for x in range(num)] # <-- how many days
     # create empty dataframe
     data = pd.DataFrame()
     data = data.reindex(columns=['Date'])
