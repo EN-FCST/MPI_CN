@@ -4,12 +4,13 @@ resy      = 0.5        # output latitude grid spacing
 resx      = 0.5        # output longitude grid spacing
 latlim    = [1, 59]    # the latitude range of the domain
 lonlim    = [71, 139]  # the longitude range of the domain
+flag_ens  = False      # False: OTS only; True: OTS and ENS
 # =========== Ensemble forecast keys ============ #
 prec_keys = ['25', '50'] # Keys of precipitation ranges, < 25 mm is not weighted.
- # Keys of objective analysis (i.e., gridded fiels) 
+ # forecast lead times of gridded objective analysis
 fcst_keys_20Z = ['036', '060', '084', '108', '132', '156', '180', '204', '228' ,'240']
 fcst_keys_08Z = ['024', '048', '072', '096', '120', '144', '168', '192', '216', '240']
-# Keys of forecast scores (i.e., weights)
+# forecast lead times of scores (weights)
 tssc_keys_20Z = ['024', '048', '072', '096', '120', '144', '168', '192', '216', '240']
 tssc_keys_08Z = ['024', '048', '072', '096', '120', '144', '168', '192', '216', '240']
 # ================== File path ================== #

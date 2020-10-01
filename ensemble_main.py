@@ -2,7 +2,7 @@
 # import keywords from the namelist
 from namelist import lib_path, prec_keys, TS_perfix, TS_path, tag_name, \
                      fcst_keys_08Z, tssc_keys_08Z, ENS_path_08Z, OTS_path_08Z, output_name_08Z, \
-                     fcst_keys_20Z, tssc_keys_20Z, ENS_path_20Z, OTS_path_20Z, output_name_20Z
+                     fcst_keys_20Z, tssc_keys_20Z, ENS_path_20Z, OTS_path_20Z, output_name_20Z, flag_ens
 from sys import path, argv
 path.insert(0, lib_path)
 # local scripts
@@ -22,33 +22,42 @@ def dummy_module(delta_day, day0):
     print('The module is happy running '+date_ref.strftime('%Y%m%d'))
     return date_ref.day
 
-def main(delta_day, day0, key):
+def main(delta_day, day0, key, flag_ens=flag_ens):
     # extracting namelist content
     if key == 20:
         fcst_keys = fcst_keys_20Z
         tssc_keys = tssc_keys_20Z
-        ENS_path  = ENS_path_20Z
         OTS_path  = OTS_path_20Z
         output_name = output_name_20Z
+        if flag_ens:
+            ENS_path  = ENS_path_20Z
     else:
         fcst_keys = fcst_keys_08Z
         tssc_keys = tssc_keys_08Z
-        ENS_path  = ENS_path_08Z
+        
         OTS_path  = OTS_path_08Z
         output_name = output_name_08Z
+        if flag_ens:
+            ENS_path  = ENS_path_08Z
+            
     # UTC time corrections & filename creation
     date_ref = datetime.utcnow()+relativedelta(days=delta_day)
     date_ref_delay = date_ref-relativedelta(days=1) # use yesterday's forecast
     date_BJ = date_ref_delay+relativedelta(hours=8)
-    print('Ensemble forecast starts at ['+date_ref.strftime('%Y%m%d-%H:%M%p')+'] UTC')
+    print('Ensemble forecast starts at ['+date_ref.strftime('%Y%m%d-%H:%M%p')+'] UTC (ENS={})'.format(flag_ens))
     name_today = []
-    name_today.append(datetime.strftime(date_ref_delay, ENS_path))
+    if flag_ens:
+        name_today.append(datetime.strftime(date_ref_delay, ENS_path))
     name_today.append(datetime.strftime(date_BJ, OTS_path))
     # =========== import gridded data =========== #
     print('Import all micaps files')
     lon, lat = mt.genrate_grid()
     ## Initializing dictionaries
-    cmpt_keys = ['ENS', 'OTS']
+    if flag_ens:
+        cmpt_keys = ['ENS', 'OTS']
+    else:
+        cmpt_keys = ['OTS']
+        
     dict_var = {}; dict_interp = {}; dict_header = {}
     dict_var = ini_dicts(dict_var, cmpt_keys)
     dict_interp = ini_dicts(dict_interp, cmpt_keys)
@@ -84,7 +93,7 @@ def main(delta_day, day0, key):
     ##     0-25 mm - OTS only
     ##     25-50, 50-inf - ENS, OTS weighted average
     ##                     out = [a*ENS + b*OTS]/(a+b)
-    ##     current and historical (last year) weights equally considered
+    ##     current and historical (last year) weights are equal.
     # ---------------------------------------- #
     # ---------- Extracting weights ---------- #
     # initialization
