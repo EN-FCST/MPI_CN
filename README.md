@@ -1,5 +1,8 @@
 # Ensemble Forecast
 
-This repo contains a set of Python-based ensemble forecast experiments. Scripts are proposed for specific operational environment, replication by mean users is not expected. 
+This repository contains precipitation ensemble post-processing scripts operated by the Beijing Meteorological Service. 
 
-Contact: yingkai@eoas.ubc.ca
+# Contributors
+
+* Yingkai Sha <yingkai@eoas.ubc.ca>
+* "Uji-Murakumo"
