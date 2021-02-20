@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# Bash version of the opertional loop
-# ----- Yingkai (Kyle) Sha
+# The 08Z opertional routine
+# --------------------------------------------
+#     Check if new forecast exists.
+#     Execute the main post-processing script.
+#     Write histories to a log file.
 
 filename='shaG_history.log'
 current_time=$(date -u +%Y%m%d%H)
@@ -20,13 +23,13 @@ do
         py_out=$(cat $filename)
         day0_new=$[10#${py_out:0:2}]
         if [ $day0_new -eq $day0 ]; then
-            echo 'BASH: Waiting for new files. Sleep 10min ...'
+            echo 'BASH: Pendeing on new files. Sleep 10 min ...'
             sleep 600
         else
             day0=$day0_new
         fi
     else
-        echo 'BASH: Current hour job is done. Sleep 10min ...'
+        echo 'BASH: Post-processing comblete. Sleep 10 min ...'
         sleep 600
     fi
 done
