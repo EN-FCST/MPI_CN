@@ -23,13 +23,13 @@ do
         py_out=$(cat $filename)
         day0_new=$[10#${py_out:0:2}]
         if [ $day0_new -eq $day0 ]; then
-            echo 'BASH: Pendeing on new files. Sleep 10 min ...'
+            echo 'BASH: Pending on new files. Sleep 10 min ...'
             sleep 600
         else
             day0=$day0_new
         fi
     else
-        echo 'BASH: Post-processing comblete. Sleep 10 min ...'
+        echo 'BASH: Post-processing combleted. Sleep 10 min ...'
         sleep 600
     fi
 done
