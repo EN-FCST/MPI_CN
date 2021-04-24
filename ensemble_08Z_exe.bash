@@ -9,8 +9,9 @@
 filename='shaG_history.log'
 current_time=$(date -u +%Y%m%d%H)
 day0=1; #count=0
-while [ 1 -le 2 ]
-do
+run=true
+
+while $run; do
     # get the current datetime
     current_time=$(date +%Y%m%d%H)
     day=$[10#${current_time:6:2}]
