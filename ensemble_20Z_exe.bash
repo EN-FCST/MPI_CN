@@ -30,7 +30,7 @@ while $run; do
             day0=$day0_new
         fi
     else
-        echo 'BASH: Post-processing combleted. Sleep 10 min ...'
+        echo 'BASH: Post-processing completed. Sleep 10 min ...'
         sleep 600
     fi
 done
