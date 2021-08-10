@@ -6,7 +6,7 @@ import numpy as np
 from sys import exit
 from os.path import exists
 from scipy.interpolate import griddata
-from namelist import lonlim, latlim, resx, resy
+from namelist import resx, resy
 
 def grid_transfer(raw_x, raw_y, raw_data, nav_lon, nav_lat, method='linear'):
     '''
@@ -16,7 +16,7 @@ def grid_transfer(raw_x, raw_y, raw_data, nav_lon, nav_lat, method='linear'):
     data_interp = griddata(LatLonPair, raw_data.flatten(), (nav_lon, nav_lat), method=method)
     return data_interp
 
-def genrate_grid(lonlim=lonlim, latlim=latlim, resx=resx, resy=resy):
+def genrate_grid(lonlim, latlim, resx=resx, resy=resy):
     '''
     Create lat/lon reference from the namelist
     '''
