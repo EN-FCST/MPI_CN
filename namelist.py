@@ -12,14 +12,20 @@ lonlim_SE = [108, 123] # Jiang-nan
 lonlim_SS = [105, 120] # Hua-nan
 
 flag_ens  = False      # False: OTS only; True: OTS and ENS
-# =========== Ensemble forecast keys ============ #
+
+# =========== calibration settings ============ #
 prec_keys = ['25', '50'] # Keys of precipitation ranges, < 25 mm is not weighted.
- # forecast lead times of gridded objective analysis
+prec_keys_SE = ['70'] # heavy precipitation threshold for Jiang-nan
+prec_keys_SS = ['77'] # ... Hua-nan
+
+# forecast lead times of gridded objective analysis
 fcst_keys_20Z = ['036', '060', '084', '108', '132', '156', '180', '204', '228' ,'240']
 fcst_keys_08Z = ['024', '048', '072', '096', '120', '144', '168', '192', '216', '240']
+
 # forecast lead times of scores (weights)
 tssc_keys_20Z = ['024', '048', '072', '096', '120', '144', '168', '192', '216', '240']
 tssc_keys_08Z = ['024', '048', '072', '096', '120', '144', '168', '192', '216', '240']
+
 # ================== File path ================== #
 TS_perfix = '%y%m%d08' # The perfix of TS
 TS_path   = 'U:/' #'data/25/17011808.096'
