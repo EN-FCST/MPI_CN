@@ -2,8 +2,15 @@ lib_path = 'libs/'
 # =============== Domain settings =============== #
 resy      = 0.5        # output latitude grid spacing
 resx      = 0.5        # output longitude grid spacing
+
 latlim    = [1, 59]    # the latitude range of the domain
+latlim_SE = [26, 32]   # Jiang-nan
+latlim_SS = [20, 26]   # Hua-nan
+
 lonlim    = [71, 139]  # the longitude range of the domain
+lonlim_SE = [108, 123] # Jiang-nan
+lonlim_SS = [105, 120] # Hua-nan
+
 flag_ens  = False      # False: OTS only; True: OTS and ENS
 # =========== Ensemble forecast keys ============ #
 prec_keys = ['25', '50'] # Keys of precipitation ranges, < 25 mm is not weighted.
