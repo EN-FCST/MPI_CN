@@ -8,6 +8,7 @@ def norm_ensemble(date, num, data_path, period='096', backward=True):
     '''
     Moving average and normalize TS files
     '''
+    
     print(' - Checking TS at '+date)
     base = datetime.strptime(date, '%y%m%d%H') # <------------- The starting date of files
     if backward:

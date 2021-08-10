@@ -1,12 +1,24 @@
 '''
-Functions for grid manipulation and MICPAS file I/O
+Utilities of grid manipulation and MICPAS file I/O
 Yingkai Sha <yingkai@eoas.ubc.ca>
 '''
+
 import numpy as np
 from sys import exit
 from os.path import exists
+from scipy.spatial import cKDTree
 from scipy.interpolate import griddata
+
 from namelist import resx, resy
+
+def grid_search(xgrid, ygrid, point_lon, point_lat):
+    '''
+    kdtree-based nearest gridpoint search.
+    '''
+    gridTree = cKDTree(list(zip(xgrid.ravel(), ygrid.ravel()))) #KDTree_wraper(xgrid, ygrid)
+    grid_shape = xgrid.shape
+    dist, indexes = gridTree.query(list(zip(point_lon, point_lat)))
+    return np.unravel_index(indexes, grid_shape)
 
 def grid_transfer(raw_x, raw_y, raw_data, nav_lon, nav_lat, method='linear'):
     '''
