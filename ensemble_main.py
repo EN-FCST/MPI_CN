@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 # import keywords from the namelist
-from namelist import lib_path, prec_keys, TS_perfix, TS_path, tag_name, lonlim, latlim, \
+from namelist import lib_path, prec_keys, prec_keys_SE, prec_keys_SS, TS_perfix, TS_path, \
+                     tag_name, lonlim, latlim, lonlim_SE, latlim_SE, lonlim_SS, latlim_SS,\
                      fcst_keys_08Z, tssc_keys_08Z, ENS_path_08Z, OTS_path_08Z, output_name_08Z, \
                      fcst_keys_20Z, tssc_keys_20Z, ENS_path_20Z, OTS_path_20Z, output_name_20Z, flag_ens
 from sys import path, argv
 path.insert(0, lib_path)
 
 # local scripts
-import ensemble_tool as et
 import micpas_tool as mt
+import ensemble_tool as et
 from utility import ini_dicts, subtrack_precip_lev
 
 # other modules
@@ -68,7 +69,11 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
     print('Import all micaps files')
     
     lon, lat = mt.genrate_grid(lonlim=lonlim, latlim=latlim)
-    
+    # Jiang-nan subsets
+    ind_SE, ind_SE = mt.grid_search(lon, lat, lonlim_SE, latlim_SE)
+    # Hua-nan subsets
+    ind_SE, ind_SE = mt.grid_search(lon, lat, lonlim_SS, latlim_SS)
+
     ## Initializing dictionaries
     if flag_ens:
         cmpt_keys = ['ENS', 'OTS']
@@ -134,8 +139,14 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
             
             # retreive ts files by the fcst delay
             date_temp = date_ref - relativedelta(days=int(tssc_key)/24) # from fcst horizon (i.e., hours) to days
+            
+            # reading TS from selected files + TS moving average
             data_ma, flag_TS = et.norm_ensemble(date_temp.strftime(TS_perfix), 
                                                 10, TS_path+prec_key+'/', period=tssc_key) # <---- moving window size: 10
+            
+            # TODO: testing data_ma shape --> add W['70'][..][..] and W['77'][...][..]
+            
+            
             # saving weights to the dictionary
             # case: no TS files
             if np.logical_not(flag_TS):
