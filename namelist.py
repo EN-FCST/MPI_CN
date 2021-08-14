@@ -14,9 +14,15 @@ lonlim_SS = [105, 120] # Hua-nan
 flag_ens  = False      # False: OTS only; True: OTS and ENS
 
 # =========== calibration settings ============ #
-prec_keys = ['25', '50'] # Keys of precipitation ranges, < 25 mm is not weighted.
+
+flag_SE = True # Heavy precip calibration for Jiang-nan
+flag_SS = True # Heavy precip calibration for Hua-nan
+
 prec_keys_SE = ['70'] # heavy precipitation threshold for Jiang-nan
 prec_keys_SS = ['77'] # ... Hua-nan
+
+prec_keys = ['25', '50'] # Keys of precipitation ranges, < 25 mm is not weighted.
+
 
 # forecast lead times of gridded objective analysis
 fcst_keys_20Z = ['036', '060', '084', '108', '132', '156', '180', '204', '228' ,'240']
@@ -33,7 +39,13 @@ ENS_path_20Z = 'X:/%Y%m%d12.' #'data/ENS/2018052712.'
 ENS_path_08Z = 'X:/%Y%m%d00.' #'data/ENS/2018052700.'
 OTS_path_20Z = 'V:/output/FZMOS/%y%m%d20.' #'data/OTS/18052720.'
 OTS_path_08Z = 'V:/output/FZMOS/%y%m%d08.' #'data/OTS/18052708.'
+
 # Output filename
 tag_name = 'MPI' # the name appears in the micaps file header
 output_name_20Z = 'T:/%Y%m%d20_' #'%Y%m%d20_'
+output_name_SE_20Z = 'T:/%Y%m%d20_SE_' #'%Y%m%d20_'
+output_name_SS_20Z = 'T:/%Y%m%d20_SE_' #'%Y%m%d20_'
+
 output_name_08Z = 'T:/%Y%m%d08_' #'%Y%m%d08_'
+output_name_SE_08Z = 'T:/%Y%m%d08_SS_' #'%Y%m%d20_'
+output_name_SS_08Z = 'T:/%Y%m%d08_SS_' #'%Y%m%d20_'
