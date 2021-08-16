@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # import keywords from the namelist
-from namelist import lib_path, prec_keys, flag_SE, flag_SS, prec_keys_SE, prec_keys_SS, TS_perfix, TS_path, tag_name, lonlim, latlim, lonlim_SE, latlim_SE, lonlim_SS, latlim_SS, fcst_keys_08Z, tssc_keys_08Z, ENS_path_08Z, OTS_path_08Z, output_name_08Z, output_name_SE_08Z, output_name_SS_08Z, fcst_keys_20Z, tssc_keys_20Z, ENS_path_20Z, OTS_path_20Z, output_name_20Z, output_name_SE_20Z, output_name_SE_20Z, flag_ens
+from namelist import lib_path, prec_keys, flag_SE, flag_SS, prec_keys_SE, prec_keys_SS, TS_perfix, TS_path, tag_name, lonlim, latlim, lonlim_SE, latlim_SE, lonlim_SS, latlim_SS, fcst_keys_08Z, tssc_keys_08Z, ENS_path_08Z, OTS_path_08Z, output_name_08Z, output_name_SE_08Z, output_name_SS_08Z, fcst_keys_20Z, tssc_keys_20Z, ENS_path_20Z, OTS_path_20Z, output_name_20Z, output_name_SE_20Z, output_name_SS_20Z, flag_ens
 from sys import path, argv
 path.insert(0, lib_path)
 
