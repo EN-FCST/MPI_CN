@@ -303,11 +303,11 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
                 # precip. with multiplicative weights    
                 precip25_SS += W['25'][tssc_keys[i]][cmpt_key] * data25
                 precip50_SS += W['50'][tssc_keys[i]][cmpt_key] * data50
-                precip_heavy_SS += W[prec_keys_SS0]][tssc_keys[i]][cmpt_key] * data_heavy
+                precip_heavy_SS += W[prec_keys_SS[0]][tssc_keys[i]][cmpt_key] * data_heavy
                 
                 W25 += W['25'][tssc_keys[i]][cmpt_key]
                 W50 += W['50'][tssc_keys[i]][cmpt_key]
-                W_heavy += W[prec_keys_SS0]][tssc_keys[i]][cmpt_key]
+                W_heavy += W[prec_keys_SS[0]][tssc_keys[i]][cmpt_key]
                 
         print('Calculating {} Hua-nan'.format(fcst_keys[i]))
         output_SS[fcst_keys[i]] = precip0/W0 + precip25/W25 + precip50/W50 + precip_heavy_SS/W_heavy
