@@ -257,10 +257,10 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
         if flag_SE:
             
             W0 = 0.0; W25 = 0.0; W50 = 0.0; W_heavy = 0.0
-            precip0_SE  = np.zeros(grid_shape)
-            precip25_SE = np.zeros(grid_shape)
-            precip50_SE = np.zeros(grid_shape)
-            precip_heavy_SE = np.zeros(grid_shape)
+            precip0_SE  = np.zeros(grid_shape_SE)
+            precip25_SE = np.zeros(grid_shape_SE)
+            precip50_SE = np.zeros(grid_shape_SE)
+            precip_heavy_SE = np.zeros(grid_shape_SE)
             
             for cmpt_key in cmpt_keys:
                 
@@ -286,10 +286,10 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
         if flag_SS:
             
             W0 = 0.0; W25 = 0.0; W50 = 0.0; W_heavy = 0.0
-            precip0_SS  = np.zeros(grid_shape)
-            precip25_SS = np.zeros(grid_shape)
-            precip50_SS = np.zeros(grid_shape)
-            precip_heavy_SS = np.zeros(grid_shape)
+            precip0_SS  = np.zeros(grid_shape_SS)
+            precip25_SS = np.zeros(grid_shape_SS)
+            precip50_SS = np.zeros(grid_shape_SS)
+            precip_heavy_SS = np.zeros(grid_shape_SS)
             
             for cmpt_key in cmpt_keys:
                 
