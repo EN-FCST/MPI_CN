@@ -268,7 +268,7 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
                 data0, data25, data50, data_heavy = subtrack_precip_lev_heavy(temp_SE, np.float(prec_keys_SE[0]))
                 
                 if cmpt_key == 'OTS':
-                    precip0 += data0
+                    precip0_SE += data0
                     W0 += 1.0
                     
                 # precip. with multiplicative weights    
@@ -281,7 +281,7 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
                 W_heavy += W[prec_keys_SE[0]][tssc_keys[i]][cmpt_key]
                 
         print('Calculating {} Jiang-nan'.format(fcst_keys[i]))
-        output_SE[fcst_keys[i]] = precip0/W0 + precip25/W25 + precip50/W50 + precip_heavy_SE/W_heavy
+        output_SE[fcst_keys[i]] = precip0_SE/W0 + precip25_SE/W25 + precip50_SE/W50 + precip_heavy_SE/W_heavy
 
         if flag_SS:
             
@@ -297,7 +297,7 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
                 data0, data25, data50, data_heavy = subtrack_precip_lev_heavy(temp_SS, np.float(prec_keys_SS[0]))
                 
                 if cmpt_key == 'OTS':
-                    precip0 += data0
+                    precip0_SS += data0
                     W0 += 1.0
                     
                 # precip. with multiplicative weights    
@@ -310,7 +310,7 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
                 W_heavy += W[prec_keys_SS[0]][tssc_keys[i]][cmpt_key]
                 
         print('Calculating {} Hua-nan'.format(fcst_keys[i]))
-        output_SS[fcst_keys[i]] = precip0/W0 + precip25/W25 + precip50/W50 + precip_heavy_SS/W_heavy
+        output_SS[fcst_keys[i]] = precip0_SS/W0 + precip25_SS/W25 + precip50_SS/W50 + precip_heavy_SS/W_heavy
         # =========================================== #
         
     # Preparing MICAPS file output
