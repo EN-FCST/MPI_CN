@@ -44,8 +44,8 @@ OTS_path_08Z = 'V:/output/FZMOS/%y%m%d08.' #'data/OTS/18052708.'
 tag_name = 'MPI' # the name appears in the micaps file header
 output_name_20Z = 'T:/%Y%m%d20_' #'%Y%m%d20_'
 output_name_SE_20Z = 'T:/%Y%m%d20_SE_' #'%Y%m%d20_'
-output_name_SS_20Z = 'T:/%Y%m%d20_SE_' #'%Y%m%d20_'
+output_name_SS_20Z = 'T:/%Y%m%d20_SS_' #'%Y%m%d20_'
 
 output_name_08Z = 'T:/%Y%m%d08_' #'%Y%m%d08_'
-output_name_SE_08Z = 'T:/%Y%m%d08_SS_' #'%Y%m%d20_'
+output_name_SE_08Z = 'T:/%Y%m%d08_SE_' #'%Y%m%d20_'
 output_name_SS_08Z = 'T:/%Y%m%d08_SS_' #'%Y%m%d20_'
