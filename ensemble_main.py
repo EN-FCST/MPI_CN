@@ -7,7 +7,7 @@ path.insert(0, lib_path)
 # local scripts
 import micpas_tool as mt
 import ensemble_tool as et
-from utility import ini_dicts, subtrack_precip_lev
+from utility import ini_dicts, subtrack_precip_lev, subtrack_precip_lev_heavy
 
 # other modules
 import numpy as np
@@ -265,7 +265,7 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
             for cmpt_key in cmpt_keys:
                 
                 temp_SE = dict_interp[cmpt_key][fcst_keys[i]][indx_SE[0]:indx_SE[1]+1, indy_SE[0]:indy_SE[1]+1]
-                data0, data25, data50, data_heavy = subtrack_precip_lev(temp_SE, np.float(prec_keys_SE[0]))
+                data0, data25, data50, data_heavy = subtrack_precip_lev_heavy(temp_SE, np.float(prec_keys_SE[0]))
                 
                 if cmpt_key == 'OTS':
                     precip0 += data0
@@ -294,7 +294,7 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
             for cmpt_key in cmpt_keys:
                 
                 temp_SS = dict_interp[cmpt_key][fcst_keys[i]][indx_SS[0]:indx_SS[1]+1, indy_SS[0]:indy_SS[1]+1]
-                data0, data25, data50, data_heavy = subtrack_precip_lev(temp_SS, np.float(prec_keys_SS[0]))
+                data0, data25, data50, data_heavy = subtrack_precip_lev_heavy(temp_SS, np.float(prec_keys_SS[0]))
                 
                 if cmpt_key == 'OTS':
                     precip0 += data0
