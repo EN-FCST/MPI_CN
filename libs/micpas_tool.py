@@ -71,7 +71,7 @@ def micaps_import(filename, export_data=True):
     else:
         return gridx, gridy
 
-def micaps_change_header(shape, header):
+def micaps_change_header(shape, header, lonlim, latlim):
     metadata = header
     dinfo = header[1].split()
     dinfo[6] = str(resx)
