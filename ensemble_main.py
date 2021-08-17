@@ -315,15 +315,15 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
         
     # Preparing MICAPS file output
     for fcst_key in fcst_keys:
-        metadata = mt.micaps_change_header(lon.shape, dict_header[fcst_key])
+        metadata = mt.micaps_change_header(lon.shape, dict_header[fcst_key], lonlim, latlim)
         mt.micaps_export(datetime.strftime(date_BJ, output_name)+fcst_key+'.txt', metadata, output[fcst_key])
         
         if flag_SE:
-            metadata_SE = mt.micaps_change_header(lon_SE.shape, dict_header[fcst_key])
+            metadata_SE = mt.micaps_change_header(lon_SE.shape, dict_header[fcst_key], lonlim_SE, latlim_SE)
             mt.micaps_export(datetime.strftime(date_BJ, output_name_SE)+fcst_key+'.txt', metadata_SE, output_SE[fcst_key])
             
         if flag_SS:
-            metadata_SS = mt.micaps_change_header(lon_SS.shape, dict_header[fcst_key])
+            metadata_SS = mt.micaps_change_header(lon_SS.shape, dict_header[fcst_key], lonlim_SS, latlim_SS)
             mt.micaps_export(datetime.strftime(date_BJ, output_name_SS)+fcst_key+'.txt', metadata_SS, output_SS[fcst_key])
                              
     print('Ensemble post-processing complete')
