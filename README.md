@@ -1,6 +1,6 @@
-# Ensemble Forecast
+# MPI-South
 
-A collection of precipitation ensemble post-processing scripts operated by the Beijing Meteorological Service. 
+A multi-model precipitation ensemble post-processing system operated at the Beijing Meteorological Service, with a focuse of extreme precipitation events in the Southeast and South China. 
 
 * `namelist.py`: the configuration file of ensemble post-processing.
 * `ensemble_08Z_exe.bash` the 08Z operational routine.
