@@ -14,13 +14,6 @@ import numpy as np
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-# # forecast lead times of gridded objective analysis
-# fcst_keys_20Z = ['036', '060', '084', '108', '132', '156', '180', '204', '228' ,'240']
-# fcst_keys_08Z = ['024', '048', '072', '096', '120', '144', '168', '192', '216', '240']
-# # forecast lead times of scores (weights)
-# tssc_keys_20Z = ['024', '048', '072', '096', '120', '144', '168', '192', '216', '240']
-# tssc_keys_08Z = ['024', '048', '072', '096', '120', '144', '168', '192', '216', '240']
-
 def dummy_module(delta_day, day0):
     '''
     dummy module for opertional test
@@ -28,6 +21,11 @@ def dummy_module(delta_day, day0):
     date_ref = datetime.utcnow()+relativedelta(days=delta_day)
     print('The main routine runs at '+date_ref.strftime('%Y%m%d'))
     return date_ref.day
+
+def nan_to_9999(data):
+    data[data<0] = 0
+    data[np.isnan(data)] = 9999
+    return data
 
 def main(delta_day, day0, key, flag_ens=flag_ens):
     '''
@@ -311,6 +309,18 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
                 
         print('Calculating {} Hua-nan'.format(fcst_keys[i]))
         output_SS[fcst_keys[i]] = precip0_SS/W0 + precip25_SS/W25 + precip50_SS/W50 + precip_heavy_SS/W_heavy
+        
+        # ===================== #
+        # nan fix and 0.1 truncation
+        output[fcst_keys[i]] = nan_to_9999(output[fcst_keys[i]])
+        output[fcst_keys[i]] = np.round(output[fcst_keys[i]], 1)
+        output_SS[fcst_keys[i]] = nan_to_9999(output_SS[fcst_keys[i]])
+        output_SS[fcst_keys[i]] = np.round(output_SS[fcst_keys[i]], 1)
+        output_SE[fcst_keys[i]] = nan_to_9999(output_SE[fcst_keys[i]])
+        output_SE[fcst_keys[i]] = np.round(output_SE[fcst_keys[i]], 1)        
+        # ===================== #
+        
+        
         # =========================================== #
         
     # Preparing MICAPS file output

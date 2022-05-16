@@ -15,6 +15,11 @@ import numpy as np
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
+def nan_to_9999(data):
+    data[data<0] = 0
+    data[np.isnan(data)] = 9999
+    return data
+
 def run_single_day(date_ref, day0, key):
     if key == 20:
         fcst_keys = fcst_keys_20Z
@@ -112,6 +117,10 @@ def run_single_day(date_ref, day0, key):
             W25 += W['25'][tssc_keys[i]][cmpt_key]
             W50 += W['50'][tssc_keys[i]][cmpt_key]
         output[fcst_keys[i]] = precip0/W0 + precip25/W25 + precip50/W50
+        
+        output[fcst_keys[i]] = nan_to_9999(output[fcst_keys[i]])
+        output[fcst_keys[i]] = np.round(output[fcst_keys[i]], 1)
+        
     # Preparing MICAPS file output
     for fcst_key in fcst_keys:
         metadata = mt.micaps_change_header(lon.shape, dict_header[fcst_key])
