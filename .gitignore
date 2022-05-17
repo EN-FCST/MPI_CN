@@ -1,6 +1,7 @@
 IPynb/.ipynb_checkpoints/
 .ipynb_checkpoints/*
 libs/*pyc
+libs/.ipynb_checkpoints/*
 data/*
 *nohup*
 *.log

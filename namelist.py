@@ -15,13 +15,7 @@ flag_ens  = False      # False: OTS only; True: OTS and ENS
 
 # =========== calibration settings ============ #
 
-flag_SE = True # Heavy precip calibration for Jiang-nan
-flag_SS = True # Heavy precip calibration for Hua-nan
-
-prec_keys_SE = ['70'] # heavy precipitation threshold for Jiang-nan
-prec_keys_SS = ['77'] # ... Hua-nan
-
-prec_keys = ['25', '50'] # Keys of precipitation ranges, < 25 mm is not weighted.
+prec_keys = ['25', '50', '60', '80'] # Keys of precipitation ranges, < 25 mm is not weighted.
 
 
 # forecast lead times of gridded objective analysis
