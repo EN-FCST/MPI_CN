@@ -142,7 +142,6 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
                 print('Warning: TS filled with NaNs, use average.')
                 for cmpt_key in cmpt_keys:
                     W[prec_key][tssc_key][cmpt_key] = 0.5
-                flag_heavy = False
                     
                 # case: regular (good quality) weights
             else:
@@ -154,8 +153,7 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
                         W[prec_key][tssc_key][cmpt_key] = temp
                 except:
                     for cmpt_key in cmpt_keys:
-                    W[prec_key][tssc_key][cmpt_key] = 0.5
-                    flag_heavy = False
+                        W[prec_key][tssc_key][cmpt_key] = 0.5
                     
 #     # ---------- Extracting historical weights ---------- #
 #     # Out-of-date blocks
