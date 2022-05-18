@@ -135,10 +135,10 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
             if np.logical_not(flag_TS):
                 return day0 # <--- exit if no TS files
             
-            # case: TS filled with NaNs (vals = 9999.0)
-            ## Use TS=0.5
+                # case: TS filled with NaNs (vals = 9999.0)
+                ## Use TS=0.5
             
-            weights_test = np.abs(np.sum(data_ma.values[-1, 1:].astype(np.float)))
+                weights_test = np.abs(np.sum(data_ma.values[-1, 1:].astype(np.float)))
             
             elif (np.isnan(weights_test)) or (weights_test>3.0):
                 print('Warning: TS filled with NaNs, use average.')
@@ -146,7 +146,7 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
                     W[prec_key][tssc_key][cmpt_key] = 0.5
                 flag_heavy = False
                     
-            # case: regular (good quality) weights
+                # case: regular (good quality) weights
             else:
                 try:
                     for cmpt_key in cmpt_keys:
