@@ -63,7 +63,7 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
     print('Import all micaps files')
     
     lon, lat = mt.genrate_grid(lonlim=lonlim, latlim=latlim)
-    prec_keys = ['25', '50'] # <--- !! testing only
+    #prec_keys = ['25', '50'] # <--- !! testing only
 
     
     ## Initializing dictionaries
