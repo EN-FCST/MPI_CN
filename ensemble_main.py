@@ -169,10 +169,7 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
         # 25mm、50mm、60mm、80mm
         
         # initialization
-        W0 = 0.0; W25 = 0.0; W50 = 0.0
-        
-        if switch_p:
-            W60 = 0.0; W80 = 0.0
+        W0 = 0.0; W25 = 0.0; W50 = 0.0; W60 = 0.0; W80 = 0.0
         
         precip0  = np.zeros(lon.shape)
         precip25 = np.zeros(lon.shape)
@@ -186,7 +183,7 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
                         
             data0, data25, data50, data60, data80 = subtrack_precip_lev(dict_interp[cmpt_key][fcst_keys[i]])
             
-            if switch_p:
+            if switch_p is False:
                 data50 = data50 + data60 + data80 # merge 50, 60, 80 if switch off
             
             # ==================== #
@@ -213,9 +210,10 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
                 W80 += W['80'][tssc_keys[i]][cmpt_key]
             
         print('Calculating '+fcst_keys[i])
-        output[fcst_keys[i]] = precip0/W0 + precip25/W25 + precip50/W50 + precip60/W60 + precip80/W80
         
         if switch_p:
+            output[fcst_keys[i]] = precip0/W0 + precip25/W25 + precip50/W50 + precip60/W60 + precip80/W80
+        else:
             output[fcst_keys[i]] = precip0/W0 + precip25/W25 + precip50/W50
             
         # ===================== #
