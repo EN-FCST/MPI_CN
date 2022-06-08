@@ -15,7 +15,7 @@ flag_ens  = False      # False: OTS only; True: OTS and ENS
 
 # =========== calibration settings ============ #
 
-switch_p = True # True: 60/80 mm on; False 60/80 mm off
+switch_p = False # True: 60/80 mm on; False 60/80 mm off
 
 prec_keys = ['25', '50', '60', '80'] # Keys of precipitation ranges, < 25 mm is not weighted.
 
