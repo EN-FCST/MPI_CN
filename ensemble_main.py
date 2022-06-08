@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # import keywords from the namelist
-from namelist import lib_path, prec_keys, TS_perfix, TS_path, tag_name, lonlim, latlim, fcst_keys_08Z, tssc_keys_08Z, ENS_path_08Z, OTS_path_08Z, output_name_08Z, fcst_keys_20Z, tssc_keys_20Z, ENS_path_20Z, OTS_path_20Z, output_name_20Z, flag_ens
+from namelist import switch_p, lib_path, prec_keys, TS_perfix, TS_path, tag_name, lonlim, latlim, fcst_keys_08Z, tssc_keys_08Z, ENS_path_08Z, OTS_path_08Z, output_name_08Z, fcst_keys_20Z, tssc_keys_20Z, ENS_path_20Z, OTS_path_20Z, output_name_20Z, flag_ens
 from sys import path, argv
 path.insert(0, lib_path)
 
@@ -63,8 +63,9 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
     print('Import all micaps files')
     
     lon, lat = mt.genrate_grid(lonlim=lonlim, latlim=latlim)
-    #prec_keys = ['25', '50'] # <--- !! testing only
-
+    
+    if switch_p is False:
+        prec_keys = prec_keys[:2] # preserve low precip thres only if switch is off
     
     ## Initializing dictionaries
     if flag_ens:
@@ -154,44 +155,7 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
                 except:
                     for cmpt_key in cmpt_keys:
                         W[prec_key][tssc_key][cmpt_key] = 0.5
-                    
-#     # ---------- Extracting historical weights ---------- #
-#     # Out-of-date blocks
-#     # Obtaining TS from last year the same initialization date
-    
-#     print('Caliberating historical weights')
-#     W_h = {}; W_h = ini_dicts(W_h, prec_keys)
-    
-#     for prec_key in prec_keys:
-#         W_h[prec_key] = ini_dicts(W_h[prec_key], tssc_keys)
-        
-#     # TS weights + moving average
-#     for prec_key in prec_keys:
-#         for tssc_key in tssc_keys:
-            
-#             # the case of last year
-#             hist_ref = date_ref - relativedelta(years=1)
-#             date_temp = hist_ref + relativedelta(days=int(tssc_key)/24)
-            
-#             # backward=False for historical TS
-#             data_ma, flag_TS = et.norm_ensemble(date_temp.strftime(TS_perfix), 10, TS_path+prec_key+'/', lead=tssc_key, backward=False)
-            
-#             # saving weights to the dictionary
-#             # case: no TS files (skip)
-#             if (np.logical_not(flag_TS)) or (np.isnan(data_ma.values[-1, 1:].astype(np.float)).sum() >= 3):
-#                 print('Warning: historical TS no found/filled with NaNs. Now ignoring')
-                
-#                 for cmpt_key in cmpt_keys:
-#                     W_h[prec_key][tssc_key][cmpt_key] = W[prec_key][tssc_key][cmpt_key]
-                    
-#             # case: regular (good quality) weights
-#             else:
-#                 for cmpt_key in cmpt_keys:
-#                     temp = data_ma[cmpt_key][9:10].values
-#                     if np.isnan(temp):
-#                         temp = 0.0
-#                     W_h[prec_key][tssc_key][cmpt_key] = temp
-                    
+                                        
     # Calculate ensembles
     print('Preparing output')
     output = {}
@@ -204,18 +168,26 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
         # --------------------------------------------------- #
         # 25mm、50mm、60mm、80mm
         
-        # initialization (four sets of weights: [0, 25, 50])
-        W0 = 0.0; W25 = 0.0; W50 = 0.0; W60 = 0.0; W80 = 0.0
+        # initialization
+        W0 = 0.0; W25 = 0.0; W50 = 0.0
+        
+        if switch_p:
+            W60 = 0.0; W80 = 0.0
         
         precip0  = np.zeros(lon.shape)
         precip25 = np.zeros(lon.shape)
         precip50 = np.zeros(lon.shape)
-        precip60 = np.zeros(lon.shape)
-        precip80 = np.zeros(lon.shape)
+        
+        if switch_p:
+            precip60 = np.zeros(lon.shape)
+            precip80 = np.zeros(lon.shape)
         
         for cmpt_key in cmpt_keys:
                         
             data0, data25, data50, data60, data80 = subtrack_precip_lev(dict_interp[cmpt_key][fcst_keys[i]])
+            
+            if switch_p:
+                data50 = data50 + data60 + data80 # merge 50, 60, 80 if switch off
             
             # ==================== #
             # [0-25) uses OTS only
@@ -228,17 +200,24 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
             
             precip25 += W['25'][tssc_keys[i]][cmpt_key] * data25
             precip50 += W['50'][tssc_keys[i]][cmpt_key] * data50
-            precip60 += W['60'][tssc_keys[i]][cmpt_key] * data60
-            precip80 += W['80'][tssc_keys[i]][cmpt_key] * data80
+            
+            if switch_p:
+                precip60 += W['60'][tssc_keys[i]][cmpt_key] * data60
+                precip80 += W['80'][tssc_keys[i]][cmpt_key] * data80
             
             W25 += W['25'][tssc_keys[i]][cmpt_key]
             W50 += W['50'][tssc_keys[i]][cmpt_key]
-            W60 += W['60'][tssc_keys[i]][cmpt_key]
-            W80 += W['80'][tssc_keys[i]][cmpt_key]
+            
+            if switch_p:
+                W60 += W['60'][tssc_keys[i]][cmpt_key]
+                W80 += W['80'][tssc_keys[i]][cmpt_key]
             
         print('Calculating '+fcst_keys[i])
         output[fcst_keys[i]] = precip0/W0 + precip25/W25 + precip50/W50 + precip60/W60 + precip80/W80
         
+        if switch_p:
+            output[fcst_keys[i]] = precip0/W0 + precip25/W25 + precip50/W50
+            
         # ===================== #
         # nan fix and 0.1 truncation
         output[fcst_keys[i]] = nan_to_9999(output[fcst_keys[i]])
