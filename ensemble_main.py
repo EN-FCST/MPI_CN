@@ -69,6 +69,8 @@ def main(delta_day, day0, key, flag_ens=flag_ens):
     
     lon, lat = mt.genrate_grid(lonlim=lonlim, latlim=latlim)
     
+    prec_keys = ['25', '50', '60', '80']
+    
     if switch_p is False:
         prec_keys = prec_keys[:2] # preserve low precip thres only if switch is off
     
