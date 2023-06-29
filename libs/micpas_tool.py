@@ -36,6 +36,48 @@ def genrate_grid(lonlim, latlim, resx=resx, resy=resy):
                                np.arange(latlim[0], latlim[1]+resy, resy))
     return gridx, gridy
 
+# def micaps_import(filename, export_data=True):
+#     '''
+#     Read MICAPS type IV grided data, export lon, lat.
+#     If export_data=True, also returns the field and filehead.
+#     '''
+#     #print(filename)
+#     # read raw txt file
+#     if np.logical_not(exists(filename)):
+#         return False 
+    
+#     with open(filename, encoding='windows-1252') as f:
+#         content = f.readlines()
+        
+#     content = [x.strip('\n') for x in content]
+#     content = [x.strip('\r') for x in content] 
+    
+#     # get header info
+#     keys = content[1].split()
+    
+#     #print(keys)
+#     dlon = np.array(keys[6]).astype(np.float)
+#     dlat = np.array(keys[7]).astype(np.float)
+#     lon0 = np.array(keys[8]).astype(np.float)
+#     lon1 = np.array(keys[9]).astype(np.float)
+#     lat0 = np.array(keys[10]).astype(np.float)
+#     lat1 = np.array(keys[11]).astype(np.float)
+    
+#     # create lat/lon reference
+#     gridx, gridy = genrate_grid(lonlim=[lon0, lon1], latlim=[lat0, lat1], resx=dlon, resy=dlat)
+    
+#     if export_data:
+#         # reshape variables
+#         num = []
+#         for line in content[2:]:
+#             num += line.split()
+#         var = np.array(num).astype(np.float).reshape(gridx.shape)
+#         # return
+#         return gridx, gridy, var, content[:2]
+    
+#     else:
+#         return gridx, gridy
+
 def micaps_import(filename, export_data=True):
     '''
     Read MICAPS type IV grided data, export lon, lat.
@@ -45,29 +87,44 @@ def micaps_import(filename, export_data=True):
     # read raw txt file
     if np.logical_not(exists(filename)):
         return False 
+    
     with open(filename, encoding='windows-1252') as f:
         content = f.readlines()
+        
     content = [x.strip('\n') for x in content]
     content = [x.strip('\r') for x in content] 
+    
     # get header info
     keys = content[1].split()
+    
     #print(keys)
-    dlon = np.array(keys[6]).astype(np.float)
-    dlat = np.array(keys[7]).astype(np.float)
-    lon0 = np.array(keys[8]).astype(np.float)
-    lon1 = np.array(keys[9]).astype(np.float)
-    lat0 = np.array(keys[10]).astype(np.float)
-    lat1 = np.array(keys[11]).astype(np.float)
+    dlon = np.array(keys[6]).astype(float)
+    dlat = np.array(keys[7]).astype(float)
+    lon0 = np.array(keys[8]).astype(float)
+    lon1 = np.array(keys[9]).astype(float)
+    lat0 = np.array(keys[10]).astype(float)
+    lat1 = np.array(keys[11]).astype(float)
+    
     # create lat/lon reference
     gridx, gridy = genrate_grid(lonlim=[lon0, lon1], latlim=[lat0, lat1], resx=dlon, resy=dlat)
+    
     if export_data:
+        
         # reshape variables
-        num = []
-        for line in content[2:]:
-            num += line.split()
-        var = np.array(num).astype(np.float).reshape(gridx.shape)
+        try:
+            num = []
+            for line in content[2:]:
+                num += line.split()
+            var = np.array(num).astype(float).reshape(gridx.shape)
+        except:
+            num = []
+            for line in content[3:]:
+                num += line.split()
+            var = np.array(num).astype(float).reshape(gridx.shape)
+            
         # return
         return gridx, gridy, var, content[:2]
+    
     else:
         return gridx, gridy
 
