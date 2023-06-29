@@ -4,16 +4,18 @@ resy      = 0.5        # output latitude grid spacing
 resx      = 0.5        # output longitude grid spacing
 
 latlim    = [1, 59]    # the latitude range of the domain
-latlim_SE = [26, 32]   # Jiang-nan
-latlim_SS = [20, 26]   # Hua-nan
+# latlim_SE = [26, 32]   # Jiang-nan
+# latlim_SS = [20, 26]   # Hua-nan
 
 lonlim    = [71, 139]  # the longitude range of the domain
-lonlim_SE = [108, 123] # Jiang-nan
-lonlim_SS = [105, 120] # Hua-nan
+# lonlim_SE = [108, 123] # Jiang-nan
+# lonlim_SS = [105, 120] # Hua-nan
 
 flag_ens  = False      # False: OTS only; True: OTS and ENS
 
 # =========== calibration settings ============ #
+
+switch_p = False # True: 60/80 mm on; False 60/80 mm off
 
 prec_keys = ['25', '50', '60', '80'] # Keys of precipitation ranges, < 25 mm is not weighted.
 
@@ -37,9 +39,9 @@ OTS_path_08Z = 'V:/output/FZMOS/%y%m%d08.' #'data/OTS/18052708.'
 # Output filename
 tag_name = 'MPI' # the name appears in the micaps file header
 output_name_20Z = 'T:/%Y%m%d20_' #'%Y%m%d20_'
-output_name_SE_20Z = 'T:/%Y%m%d20_SE_' #'%Y%m%d20_'
-output_name_SS_20Z = 'T:/%Y%m%d20_SS_' #'%Y%m%d20_'
+# output_name_SE_20Z = 'T:/%Y%m%d20_SE_' #'%Y%m%d20_'
+# output_name_SS_20Z = 'T:/%Y%m%d20_SS_' #'%Y%m%d20_'
 
 output_name_08Z = 'T:/%Y%m%d08_' #'%Y%m%d08_'
-output_name_SE_08Z = 'T:/%Y%m%d08_SE_' #'%Y%m%d20_'
-output_name_SS_08Z = 'T:/%Y%m%d08_SS_' #'%Y%m%d20_'
+# output_name_SE_08Z = 'T:/%Y%m%d08_SE_' #'%Y%m%d20_'
+# output_name_SS_08Z = 'T:/%Y%m%d08_SS_' #'%Y%m%d20_'
